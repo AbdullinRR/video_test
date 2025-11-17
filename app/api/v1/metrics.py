@@ -1,0 +1,10 @@
+from fastapi import APIRouter, Response
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+
+router = APIRouter(prefix="/metrics", tags=["metrics"])
+
+
+@router.get("/", summary="отдаёт метрики в формате Prometheus")
+async def get_metrics():
+    data = generate_latest()
+    return Response(content=data, media_type=CONTENT_TYPE_LATEST)
